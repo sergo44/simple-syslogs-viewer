@@ -1,0 +1,40 @@
+# Stage 1: Build frontend
+FROM node:22-alpine AS build-frontend
+WORKDIR /app
+COPY ./ui/package.json ui/package-lock.json ./
+RUN npm ci
+COPY ./ui .
+RUN npm run build
+
+# Stage 2: Build backend PHP
+FROM php:8.4-fpm-alpine AS build-backend
+WORKDIR /app
+COPY ./composer.json composer.lock ./
+RUN apk add --no-cache git curl
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN composer install --no-dev --optimize-autoloader
+COPY ./src ./src
+
+# Stage 3: Final image
+FROM php:8.4-fpm-alpine
+RUN apk add --no-cache nginx supervisor
+
+COPY build/etc/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY build/etc/supervisor.conf /etc/supervisord.conf
+
+WORKDIR /var/www/html
+COPY --from=build-frontend /app/dist ./ui/dist
+COPY --from=build-backend /app/src ./src
+COPY --from=build-backend /app/vendor ./vendor
+
+COPY ./ui/dist/index.php ./ui/dist/index.php
+
+RUN mkdir -p /target &&\
+    echo 'Mount volume target volume (ex. /var/log) to /target' > /target/README.log
+
+RUN sed -i 's/^user = .*/user = root/' /usr/local/etc/php-fpm.d/www.conf && \
+    sed -i 's/^group = .*/group = root/' /usr/local/etc/php-fpm.d/www.conf
+
+WORKDIR /var/www/html
+EXPOSE 80
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

@@ -1,0 +1,9 @@
+docker login -u sergo44
+
+docker build -t sergo44/simple-syslogs-viewer:1.0.1 -f build/Dockerfile.Image .
+docker push sergo44/simple-syslogs-viewer:1.0.1
+
+docker build -t sergo44/simple-syslogs-viewer:latest -f build/Dockerfile.Image .
+docker push sergo44/simple-syslogs-viewer:latest
+
+docker system prune -a
