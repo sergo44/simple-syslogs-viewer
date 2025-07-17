@@ -1,0 +1,12 @@
+[
+  {
+    "type": "dir",
+    "name": "logs",
+    "path": "logs",
+    "children": [
+      { "type": "file", "name": "error.log", "path": "logs/error.log" },
+      { "type": "file", "name": "access.log", "path": "logs/access.log" }
+    ]
+  },
+  { "type": "file", "name": "app.log", "path": "app.log" }
+]

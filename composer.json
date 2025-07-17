@@ -1,0 +1,27 @@
+{
+  "name": "sergo44/simple-syslogs-viewer",
+  "description": "A simple open source application to view files in web",
+  "type": "project",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/App"
+    }
+  },
+  "authors": [
+    {
+      "name": "Sergey A Oskorbin",
+      "email": "sergo44@mail.ru"
+    }
+  ],
+  "require": {
+    "ext-mbstring": "*",
+    "ext-fileinfo": "*"
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "homepage": "https://github.com/sergo44/simple-syslogs-viewer",
+  "support": {
+    "issues": "https://github.com/sergo44/simple-syslogs-viewer/issues"
+  }
+}
