@@ -11,19 +11,26 @@ const MainApp = () => {
     const [selectedFile, setSelectedFile] = React.useState<string | null>(null);
     return (
         <div className="flex flex-col h-screen w-screen bg-neutral-950 text-neutral-100">
-            <div className="flex flex-1">
+            <div className="flex flex-1 min-h-0">
+                {/* Sidebar */}
                 <aside className="w-80 h-full bg-neutral-900 border-r border-neutral-800 shadow-lg p-4 flex flex-col">
                     <h2 className="text-lg font-bold mb-4 text-violet-400">Log Files</h2>
-                    <FileExplorer selectedFile={selectedFile} onSelectFile={setSelectedFile} />
+                    {/* Скроллируемый блок файлов */}
+                    <div className="flex-1 overflow-y-auto">
+                        <FileExplorer selectedFile={selectedFile} onSelectFile={setSelectedFile} />
+                    </div>
                 </aside>
+                {/* Контент логов */}
                 <main className="flex-1 h-full p-8 overflow-auto bg-neutral-950">
                     <LogViewer filePath={selectedFile} />
                 </main>
             </div>
-            <Footer />
+            {/* Футер */}
+            <Footer/>
         </div>
     );
 };
+
 
 const App = () => (
     <AuthProvider>
