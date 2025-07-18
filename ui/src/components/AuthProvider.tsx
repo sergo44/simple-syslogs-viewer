@@ -25,7 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
     useEffect(() => {
-        fetch("http://localhost/Api/Users/Auth/Enabled")
+        fetch("/Api/Users/Auth/Enabled")
             .then((r) => r.json())
             .then((json) => {
                 const enabled = !!json?.payload?.enabled;
@@ -44,7 +44,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     const signIn = async (login: string, password: string) => {
-        const res = await fetch("http://localhost/Api/Users/Auth/SignIn", {
+        const res = await fetch("/Api/Users/Auth/SignIn", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ login, password }),
