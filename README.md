@@ -16,6 +16,27 @@ docker run -it --rm -p 8080:80 -v /var/log:/target:ro sergo44/simple-syslogs-vie
 
 3. Настройте volume `/target` для нужных логов, если требуется.
 
+### Environment переменные
+#### Авторизация
+
+- `SIMPLE_SYSLOG_VIEWER_LOGIN` — Логин для доступа к приложению.
+- `SIMPLE_SYSLOG_VIEWER_PASSWORD` — Пароль для доступа к приложению.
+
+#### Ограничение расширений файлов
+
+- `SIMPLE_SYSLOG_VIEWER_SKIP_EXT_SECURE_CHECK` — Если переменная задана, проверка расширений файлов отключается, и можно просматривать любые файлы.
+- `SIMPLE_SYSLOG_VIEWER_ALLOWED_EXT_LIST` — Список разрешённых для просмотра расширений файлов (по умолчанию: `txt,log`). Работает, если не задана переменная `SIMPLE_SYSLOG_VIEWER_SKIP_EXT_SECURE_CHECK`.
+- `SIMPLE_SYSLOG_VIEWER_ARCHIVES_EXT_LIST` — Список расширений архивных файлов (по умолчанию: `gz,xz,zip`).
+
+#### Пример
+
+```bash
+export SIMPLE_SYSLOG_VIEWER_LOGIN=admin
+export SIMPLE_SYSLOG_VIEWER_PASSWORD=secret
+export SIMPLE_SYSLOG_VIEWER_ALLOWED_EXT_LIST=txt,log,json
+export SIMPLE_SYSLOG_VIEWER_ARCHIVES_EXT_LIST=gz,xz,zip,tar
+```
+
 ### Особенности
 
 - **Frontend:** React + Vite + shadcn/ui  
@@ -47,6 +68,28 @@ docker run -it --rm -p 8080:80 -v /var/log:/target:ro sergo44/simple-syslogs-vie
 
 3. Mount the `/target` volume with your desired log files if needed.
 
+### Environment Variables
+
+#### Authorization
+
+- `SIMPLE_SYSLOG_VIEWER_LOGIN` — Login for accessing the application.
+- `SIMPLE_SYSLOG_VIEWER_PASSWORD` — Password for accessing the application.
+
+#### File Extension Restriction
+
+- `SIMPLE_SYSLOG_VIEWER_SKIP_EXT_SECURE_CHECK` — If set, file extension checking is disabled and all files will be available for viewing.
+- `SIMPLE_SYSLOG_VIEWER_ALLOWED_EXT_LIST` — List of allowed file extensions for viewing (default: `txt,log`). Works if `SIMPLE_SYSLOG_VIEWER_SKIP_EXT_SECURE_CHECK` is **not** set.
+- `SIMPLE_SYSLOG_VIEWER_ARCHIVES_EXT_LIST` — List of archive file extensions (default: `gz,xz,zip`).
+
+#### Example
+
+```bash
+export SIMPLE_SYSLOG_VIEWER_LOGIN=admin
+export SIMPLE_SYSLOG_VIEWER_PASSWORD=secret
+export SIMPLE_SYSLOG_VIEWER_ALLOWED_EXT_LIST=txt,log,json
+export SIMPLE_SYSLOG_VIEWER_ARCHIVES_EXT_LIST=gz,xz,zip,tar
+```
+ 
 ### Features
 
 - **Frontend:** React + Vite + shadcn/ui  

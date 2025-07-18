@@ -2,7 +2,7 @@
   "name": "simple-syslogs-viewer",
   "description": "Simple open source React frontend for viewing syslog/log files",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "license": "MIT",
   "author": "Sergey A Oskorbin <sergo44@mail.ru>",

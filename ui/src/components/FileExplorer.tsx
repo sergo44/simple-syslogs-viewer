@@ -89,7 +89,7 @@ export const FileExplorer: React.FC<Props> = ({ selectedFile, onSelectFile }) =>
 
     if (!files.length)
         return (
-            <div className="text-gray-400 text-sm italic px-2 py-4">Нет файлов</div>
+            <div className="text-gray-400 text-sm italic px-2 py-4">No files</div>
         );
 
     return (

@@ -57,6 +57,11 @@ if (file_exists(APP_GLOBAL_CONFIG_DIR)) {
 
 try {
 
+    session_start();
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        throw new ApplicationError("Session start failed");
+    }
+
     $dispatcher = new Dispatcher(parse_url(($_SERVER['REQUEST_URI'] ?? "/"), PHP_URL_PATH));
 
     if ($dispatcher->routeViaFiles()) {

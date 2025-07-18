@@ -19,7 +19,7 @@ export const LogViewer: React.FC<Props> = ({ filePath }) => {
         setSearch(""); // сбрасываем поиск
         fetch(`/Api/LogFile?file=${encodeURIComponent(filePath)}`)
             .then(async (r) => {
-                if (!r.ok) throw new Error("Ошибка загрузки файла");
+                if (!r.ok) throw new Error("Error loading file");
                 const json = await r.json();
 
                 if (
@@ -49,7 +49,7 @@ export const LogViewer: React.FC<Props> = ({ filePath }) => {
         setLog("");
         fetch(`/Api/LogFile?file=${encodeURIComponent(filePath)}&search=${encodeURIComponent(search)}`)
             .then(async (r) => {
-                if (!r.ok) throw new Error("Ошибка загрузки файла");
+                if (!r.ok) throw new Error("Error loading file");
                 const json = await r.json();
 
                 if (
@@ -87,7 +87,7 @@ export const LogViewer: React.FC<Props> = ({ filePath }) => {
     if (!filePath)
         return (
             <div className="flex items-center justify-center h-full bg-neutral-900 rounded text-neutral-500 text-lg">
-                Выберите лог для просмотра
+                Choose file for view
             </div>
         );
 
@@ -100,7 +100,7 @@ export const LogViewer: React.FC<Props> = ({ filePath }) => {
                         <Search className="absolute left-2 top-2 w-4 h-4 text-neutral-500" />
                         <input
                             type="text"
-                            placeholder="Поиск по логам"
+                            placeholder="Search for"
                             className="pl-8 pr-2 py-1 bg-neutral-800 text-neutral-200 rounded outline-none border border-neutral-700 focus:border-violet-500 text-xs w-full"
                             value={search}
                             onChange={e => setSearch(e.target.value)}
@@ -113,7 +113,7 @@ export const LogViewer: React.FC<Props> = ({ filePath }) => {
                         onClick={handleSearch}
                         disabled={loading}
                     >
-                        Найти
+                        Find
                     </button>
                     <button
                         className="ml-2 p-2 rounded bg-neutral-800 hover:bg-violet-700 transition-colors text-neutral-200 flex items-center"
@@ -121,14 +121,14 @@ export const LogViewer: React.FC<Props> = ({ filePath }) => {
                         title="Скопировать лог"
                     >
                         <Clipboard className="w-4 h-4" />
-                        {copied && <span className="ml-1 text-xs">Скопировано!</span>}
+                        {copied && <span className="ml-1 text-xs">Copied!</span>}
                     </button>
                 </div>
             </div>
             <div className="flex-1 overflow-auto">
                 {loading ? (
                     <div className="flex items-center justify-center h-40 text-neutral-400">
-                        <Loader2 className="animate-spin mr-2" /> Загрузка...
+                        <Loader2 className="animate-spin mr-2" /> Loading...
                     </div>
                 ) : (
                     <pre

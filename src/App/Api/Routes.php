@@ -6,6 +6,7 @@ namespace App\Api;
 
 use App\FrontController\ControllerInterface;
 use App\FrontController\FileRoute;
+use App\FrontController\RequestData\PostJsonData;
 use App\FrontController\RequestData\RequestData;
 use App\FrontController\RouterInterface;
 use App\Api;
@@ -29,6 +30,22 @@ class Routes extends FileRoute implements RouterInterface
                 new Api\LogFile\LogFileJsonView(),
                 new JsonLayout()
             )->getFile();
+        }
+
+        if (preg_match("#^/?Api/Users/Auth/Enabled/?$#", $this->dispatcher->path)) {
+            return new Api\Users\AuthController(
+                new PostJsonData(),
+                new Api\Users\AuthJsonView(),
+                new JsonLayout()
+            )->isEnabled();
+        }
+
+        if (preg_match("#^/?Api/Users/Auth/SignIn/?$#", $this->dispatcher->path)) {
+            return new Api\Users\AuthController(
+                new PostJsonData(),
+                new Api\Users\AuthJsonView(),
+                new JsonLayout()
+            )->signIn();
         }
 
         return null;

@@ -35,29 +35,36 @@ class LogFileController extends BaseController implements ControllerInterface
 
             $file_mame = $this->request->getString("file");
             if (!$file_mame) {
-                throw new ControllerException("Не передан файл для загрузки");
+                throw new ControllerException("No file provided");
             }
 
             if (!file_exists($file_mame)) {
-                throw new ControllerException("Указанный вами файл не найден");
+                throw new ControllerException("File not found");
             }
 
             if (!is_file($file_mame)) {
-                throw new ControllerException("Указанный файл является директорией или не типичным файлов");
+                throw new ControllerException("Path is not regular file");
             }
 
             if (!is_readable($file_mame)) {
-                throw new ControllerException("Нет доступа для чтения файла");
+                throw new ControllerException("Open file permissions error");
             }
 
             $ext = strtolower(pathinfo($file_mame, PATHINFO_EXTENSION));
-            if (!in_array($ext, ["txt", "log"])) {
-                throw new ControllerException("Запрещенный тип файлов - поддерживается только txt, log файлы");
+
+            if (in_array($ext, explode(",", mb_strtolower(getenv("SIMPLE_SYSLOG_VIEWER_ARCHIVES_EXT_LIST") ?: "gz,xz,zip")))) {
+                throw new ControllerException("Can't open archive file yet");
+            }
+
+            if (!getenv("SIMPLE_SYSLOG_VIEWER_SKIP_EXT_SECURE_CHECK") || mb_strtolower(getenv("SIMPLE_SYSLOG_VIEWER_SKIP_EXT_SECURE_CHECK")) === "false") {
+                if (!in_array($ext, explode(',', mb_strtolower(getenv("SIMPLE_SYSLOG_VIEWER_ALLOWED_EXT_LIST") ?: "txt,log")))) {
+                    throw new ControllerException("Insecure file extension");
+                }
             }
 
             $realpath = realpath($file_mame);
             if (!$realpath || !str_starts_with($realpath, "/target/")) {
-                throw new ControllerException("Попытка выйти за пределы доступной директории");
+                throw new ControllerException("Insecure file path");
             }
 
             $this->view->content = $this->_readFile($realpath, $this->request->getString('search'));
@@ -73,7 +80,7 @@ class LogFileController extends BaseController implements ControllerInterface
     {
         $handle = fopen($path, "r");
         if (!$handle) {
-            return "Ошибка открытия файла";
+            return "Error opening file";
         }
 
         $bufferBefore = [];
@@ -126,7 +133,7 @@ class LogFileController extends BaseController implements ControllerInterface
         }
         fclose($handle);
 
-        return $matchesFound > 0 || !$search_string ? $result : "Совпадения не найдены.";
+        return $matchesFound > 0 || !$search_string ? $result : "Match not found";
     }
 
 }
