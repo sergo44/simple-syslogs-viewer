@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Api\Users;
 
 use App\ApplicationError;
+use App\Auth;
 use App\FrontController\BaseController;
 use App\FrontController\ControllerInterface;
 use App\FrontController\LayoutInterface;
@@ -18,7 +19,7 @@ class AuthController extends BaseController implements ControllerInterface
         $this->view = $view;
         $this->layout = $layout;
 
-        $this->view->enabled = $this->_isEnabled();
+        $this->view->enabled = Auth::isEnabled();
     }
 
     public function isEnabled(): self
@@ -36,16 +37,16 @@ class AuthController extends BaseController implements ControllerInterface
             throw new ApplicationError("Headers already sent");
         }
 
-        if ($this->_isEnabled()) {
+        if (Auth::isEnabled()) {
 
             if (
                 mb_strtolower($this->request->getString("login") ?? "") !== mb_strtolower(getenv("SIMPLE_SYSLOG_VIEWER_LOGIN"))
                 || mb_strtolower($this->request->getString("password") ?? "") !== mb_strtolower(getenv("SIMPLE_SYSLOG_VIEWER_PASSWORD"))
             ) {
-                $_SESSION['authorized'] = false;
+                Auth::setAuthorized(false);
                 $this->view->result->addError("Login or password is not correct");
             } else {
-                $_SESSION['authorized'] = true;
+                Auth::setAuthorized(true);
             }
 
             return $this;
@@ -53,10 +54,5 @@ class AuthController extends BaseController implements ControllerInterface
 
         return $this;
 
-    }
-
-    public function _isEnabled(): bool
-    {
-        return trim(getenv("SIMPLE_SYSLOG_VIEWER_LOGIN") ?: "") && trim(getenv("SIMPLE_SYSLOG_VIEWER_PASSWORD") ?: "");
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Api\Users;
 
+use App\Auth;
 use App\FrontController\ViewInterface;
 use App\Views\JsonView;
 
@@ -17,7 +18,7 @@ class AuthJsonView extends JsonView implements ViewInterface, \JsonSerializable
             "result" => $this->result,
             "payload" => array(
                 "enabled" => $this->enabled,
-                "authorized" => ($_SESSION['authorized'] ?? false) === true
+                "authorized" => Auth::isAuthorized()
             )
         );
     }

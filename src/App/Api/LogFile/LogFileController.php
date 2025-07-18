@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Api\LogFile;
 
+use App\Auth;
 use App\FrontController\BaseController;
 use App\FrontController\ControllerException;
 use App\FrontController\ControllerInterface;
 use App\FrontController\LayoutInterface;
 use App\FrontController\RequestDataInterface;
+use App\HttpError401Exception;
 
 class LogFileController extends BaseController implements ControllerInterface
 {
@@ -17,12 +19,17 @@ class LogFileController extends BaseController implements ControllerInterface
      * @param RequestDataInterface $request
      * @param LogFileJsonView $view
      * @param LayoutInterface $layout
+     * @throws HttpError401Exception
      */
     public function __construct(RequestDataInterface $request, LogFileJsonView $view, LayoutInterface $layout)
     {
         $this->request = $request;
         $this->view = $view;
         $this->layout = $layout;
+
+        if (!Auth::isAuthorized()) {
+            throw new HttpError401Exception("Unauthorized");
+        }
     }
 
     /**
