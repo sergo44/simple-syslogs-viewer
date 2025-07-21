@@ -12,6 +12,8 @@
 docker run -it --rm -p 8080:80 -v /var/log:/target:ro sergo44/simple-syslogs-viewer:latest
 ```
 
+[https://hub.docker.com/r/sergo44/simple-syslogs-viewer](https://hub.docker.com/r/sergo44/simple-syslogs-viewer)
+
 2. Откройте [http://localhost:8080](http://localhost:8080) в браузере.
 
 3. Настройте volume `/target` для нужных логов, если требуется.
@@ -63,6 +65,8 @@ Supports reading logs as root (e.g. `/var/log`) for analyzing system and applica
 ```
 docker run -it --rm -p 8080:80 -v /var/log:/target:ro sergo44/simple-syslogs-viewer:latest
 ```
+
+[https://hub.docker.com/r/sergo44/simple-syslogs-viewer](https://hub.docker.com/r/sergo44/simple-syslogs-viewer)
 
 2. Open [http://localhost:8080](http://localhost:8080) in your browser.
 
