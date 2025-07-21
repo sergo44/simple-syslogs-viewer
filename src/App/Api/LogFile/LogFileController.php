@@ -38,6 +38,8 @@ class LogFileController extends BaseController implements ControllerInterface
      */
     public function getFile(): self
     {
+        ini_set('memory_limit', '1G');
+
         try {
 
             $file_mame = $this->request->getString("file");
