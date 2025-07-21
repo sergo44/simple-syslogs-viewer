@@ -7,7 +7,7 @@ export const Footer: React.FC = () => (
     <footer className="w-full py-4 text-center text-sm text-neutral-500 border-t border-neutral-800 bg-neutral-950">
         © 2025 Simple Syslog Viewer &nbsp;|&nbsp; v{version} | &nbsp;
         <a
-            href="https://github.com/sergo44/simple-syslog-viewer"
+            href="https://github.com/sergo44/simple-syslogs-viewer"
             className="text-violet-400 hover:underline"
             target="_blank"
             rel="noopener noreferrer"
